@@ -33,10 +33,11 @@ const skeleton = {
 }
 
 function setCollapseAttribute(id, data) {
-  const anchor = document.getElementById(id),
-      value = anchor.getAttribute("aria-controls"),
-      newValue = `${value} ${data}`
-  anchor.setAttribute("aria-controls", newValue)
+  var anchor = document.getElementById(id)
+  //     value = anchor.getAttribute("aria-controls"),
+  //     newValue = `${value} ${data}`
+  // anchor.setAttribute("aria-controls", newValue)
+  console.log(anchor);
 }
 
 function formatTitle(sentence) {
