@@ -32,9 +32,7 @@ const skeleton = {
   }
 }
 
-function setCollapseAttribute(data) {}
-
-function formatTitle(sentence) {
+function formatToSnake(sentence) {
   return sentence.replace(/\s+/g, "_").toLowerCase()
 }
 
@@ -43,10 +41,10 @@ function insertElement(id, data) {
 }
 
 function buildContent(key, value) {
-  var section_id = formatTitle(key);
+  var section_id = formatToSnake(key);
   insertElement(section_id, skeleton.h2(key, section_id))
   value.forEach(object => {
-    var div_id = formatTitle(object.title)
+    var div_id = formatToSnake(object.title)
     insertElement(section_id, skeleton.h3(object.title, div_id, section_id))
     if (object["chapter"].length === 0) return
     insertElement(section_id, skeleton.div(div_id))
@@ -58,7 +56,7 @@ function buildContent(key, value) {
 
 export default function Template(data) {
   for (const key in data) {
-    var section_id = formatTitle(key);
+    var section_id = formatToSnake(key);
     insertElement("content", /*html*/`<section id="${section_id}"></section>`)
     if (Object.hasOwnProperty.call(data, key)) {
       const value = data[key];
