@@ -1,14 +1,14 @@
 const skeleton = {
   "h2": (data, _h3) => {
     return /*html*/`
-      <a a href="#collapse-${_h3}" class="text-decoration-none link-body-emphasis" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse-${_h3}">
+      <button data-bs-target=".multi-collapse" class="btn btn-link text-decoration-none link-body-emphasis" data-bs-toggle="collapse" type="button" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="collapse-${_h3}">
         <h2 class="display-6 text-center mb-4">${data}</h2>
-      </a>
+      </button>
     `
   },
   "h3": (data, _div, _h3) => {
     return /*html*/`
-      <div id="collapse-${_h3}" class="collapse">
+      <div id="collapse-${_h3}" class="collapse multi-collapse">
         <a href="#collapse-${_div}" class="text-decoration-none link-body-emphasis" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse-${_div}">
           <h3 class="text-center mb-4">${data}</h3>
         </a>
@@ -17,7 +17,7 @@ const skeleton = {
   },
   "div": (data) => {
     return /*html*/`
-      <div id="collapse-${data}" class="collapse mb-5">
+      <div id="collapse-${data}" class="collapse multi-collapse mb-5">
         <div id="chapter-list-${data}" class="list-group d-grid gap-2 border-0 mx-auto"></div>
       </div>
     `
@@ -30,6 +30,13 @@ const skeleton = {
       </a>
     `
   }
+}
+
+function setCollapseAttribute(id, data) {
+  const anchor = document.getElementById(id),
+      value = anchor.getAttribute("aria-controls"),
+      newValue = `${value} ${data}`
+  anchor.setAttribute("aria-controls", newValue)
 }
 
 function formatTitle(sentence) {
@@ -46,8 +53,10 @@ function buildContent(key, value) {
   value.forEach(object => {
     var div_id = formatTitle(object.title)
     insertElement(section_id, skeleton.h3(object.title, div_id, section_id))
+    setCollapseAttribute(key, `collapse-${section_id}`)
     if (object["chapter"].length === 0) return
     insertElement(section_id, skeleton.div(div_id))
+    setCollapseAttribute(key, `collapse-${div_id}`)
     object["chapter"].forEach((item, index) => {
       insertElement(`chapter-list-${div_id}`, skeleton.list(item, (index+1)))
     })
