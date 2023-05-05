@@ -24,7 +24,7 @@ const skeleton = {
   },
   "list": (data, index) => {
     return /*html*/`
-      <a href="${data.path}" class="list-group-item list-group-item-light list-group-item-action rounded-3 py-3">
+      <a href="${data.path}" target="_blank" class="list-group-item list-group-item-light list-group-item-action rounded-3 py-3">
         Chapter ${index}
         <span class="d-block small opacity-50">${data.title}</span>
       </a>
